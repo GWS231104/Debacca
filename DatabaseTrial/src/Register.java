@@ -1,3 +1,10 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -67,7 +74,7 @@ public class Register extends javax.swing.JFrame {
 
         jLabel4.setText("Password");
 
-        LoginButton.setText("Login");
+        LoginButton.setText("Register");
         LoginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LoginButtonActionPerformed(evt);
@@ -75,6 +82,11 @@ public class Register extends javax.swing.JFrame {
         });
 
         ExitButton.setText("Exit");
+        ExitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitButtonActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setText("Register");
@@ -163,8 +175,61 @@ public class Register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+
         // TODO add your handling code here:
+        String Nick, EM, Pass, query;
+        //koneksi Database
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");    
+            //proses pemanggilan file database
+            String url = "jdbc:MySQL://localhost:3306/debacca";
+            String user = "root";
+            String pass = "";
+            //proses koneksi
+            Connection con = DriverManager.getConnection(url, user, pass);
+            Statement st = con.createStatement();
+            
+            if  ("".equals(txtUser.getText())){
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Nama User Tersedia", "Dialog",
+                        JOptionPane.ERROR_MESSAGE);
+            } else if ("".equals(txtEmail.getText())){
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Email Tersedia", "Dialog",
+                        JOptionPane.ERROR_MESSAGE);
+            } else if ("".equals(txtPass.getText())){
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Pass Tersedia", "Dialog",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                Nick = txtUser.getText();
+                Pass = txtPass.getText();
+                EM = txtEmail.getText();
+                query = "INSERT INTO login"
+                        + "(username,password,email) "
+                        + "VALUES ('"+Nick+"', '"+Pass+"', '"+EM+"')";
+                //--------------------------------------------------------------
+                st.executeUpdate(query);
+                txtUser.setText("");
+                txtPass.setText("");
+                txtEmail.setText("");
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Berhasil di simpan", "Dialog",
+                        JOptionPane.OK_OPTION);
+                //Tutup Koneksi
+                con.close();
+                System.out.println(query);
+            }
+        } catch (Exception e) {
+            System.err.println("error" + e);
+        }        
+        
     }//GEN-LAST:event_LoginButtonActionPerformed
+
+    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+        new Main().setVisible(true);
+        this.setVisible(false);   
+    }//GEN-LAST:event_ExitButtonActionPerformed
 
     /**
      * @param args the command line arguments

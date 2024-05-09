@@ -1,3 +1,14 @@
+
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import javax.security.auth.login.LoginException;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,7 +19,7 @@
  * @author hilmi
  */
 public class Main extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form NewJFrame
      */
@@ -50,7 +61,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("User");
+        jLabel1.setText("Username");
 
         jLabel2.setText("Password");
 
@@ -75,6 +86,11 @@ public class Main extends javax.swing.JFrame {
         jLabel4.setText("Login ");
 
         ExitButton.setText("Exit");
+        ExitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -153,16 +169,33 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUserActionPerformed
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        // TODO add your handling code here:
+
+    String user = txtUser.getText();
+    String password = new String(txtPass.getPassword());
+
+    try {
+        User loggedInUser = LoginManager.login(user, password);
+        JOptionPane.showMessageDialog(this, "Login successful!");
+        new Menu(loggedInUser).setVisible(true);
+        this.setVisible(false);        
+    } catch (LoginException ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+    }        
+        
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void RegistrationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrationButtonActionPerformed
-        // TODO add your handling code here:
+        new Register().setVisible(true);
+        this.setVisible(false);     
     }//GEN-LAST:event_RegistrationButtonActionPerformed
 
     private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPassActionPerformed
+
+    private void ExitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitButtonActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_ExitButtonActionPerformed
 
     /**
      * @param args the command line arguments
