@@ -1,3 +1,17 @@
+
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,13 +22,62 @@
  * @author hilmi
  */
 public class Updatepanel extends javax.swing.JFrame {
-
+    private User user;
+    private String title;
+    private String author;    
+    private Map<Integer, String> genreMap;    
+    private static final String url = "jdbc:mysql://localhost:3306/debacca";  
+    private static final String userName = "root";
+    private static final String passwordDB = "";    
     /**
      * Creates new form Updatepanel
      */
-    public Updatepanel() {
+    public Updatepanel(User user, String title, String author) {
+        this.user = user;
+        this.title = title;
+        this.author = author;        
         initComponents();
+        initGenreMap();
+        txt_update();
+        txtTitle.setText("" + title);
     }
+    
+    private int txt_update() {        
+    int user_id = user.getID();
+    int genre_id = getSelectedGenreId();
+        try {
+        
+            Class.forName("com.mysql.cj.jdbc.Driver");    
+            //proses pemanggilan file database
+            String url = "jdbc:MySQL://localhost:3306/debacca";
+            String user = "root";
+            String pass = "";
+            String query = "SELECT s.id, s.text FROM stories AS s WHERE s.title = ?";
+            
+            //proses koneksi
+            Connection con = DriverManager.getConnection(url, user, pass);
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setString(1, title);            
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                StoryArea.setText(rs.getString("text"));
+                int storyId = rs.getInt("id");
+                return storyId;
+            } else {
+                StoryArea.setText("No story found with title: " + title);
+            }            
+            
+        // Close database resources
+        rs.close();
+        statement.close();
+        con.close();        
+        } catch (Exception e) {
+            System.err.println("error" + e);
+            
+        } 
+        return 0;
+    }      
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,25 +90,47 @@ public class Updatepanel extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTitle = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        StoryArea = new javax.swing.JTextArea();
+        GenreBox = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
+        SaveButton = new javax.swing.JButton();
+        DeleteButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Title");
 
-        jTextField1.setText("jTextField1");
+        StoryArea.setColumns(20);
+        StoryArea.setRows(5);
+        jScrollPane1.setViewportView(StoryArea);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jToggleButton1.setText("Save");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        GenreBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Horror", "Action", "Fantasy", "Romance", "Sci-Fi", "Mystery", "Adventure", "Comedy" }));
+        GenreBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                GenreBoxActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Profile");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        SaveButton.setText("Save");
+        SaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveButtonActionPerformed(evt);
+            }
+        });
+
+        DeleteButton.setText("Delete story");
+        DeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteButtonActionPerformed(evt);
             }
         });
 
@@ -56,13 +141,21 @@ public class Updatepanel extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(GenreBox, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(DeleteButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(SaveButton)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -71,10 +164,15 @@ public class Updatepanel extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE))
+                    .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(GenreBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SaveButton)
+                    .addComponent(DeleteButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -91,14 +189,105 @@ public class Updatepanel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new Profile(user).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void GenreBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenreBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GenreBoxActionPerformed
+
+    private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
+
+        String title = txtTitle.getText();
+        String text = StoryArea.getText();        
+        int user_id = user.getID();
+        int genre_id = getSelectedGenreId();
+        int retrievedStoryId = txt_update();
+        try (Connection con = DriverManager.getConnection(url, userName, passwordDB)){
+            String  query = "UPDATE stories SET title = ?, user_id = ?, genre_id = ?, text = ? WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setString(1, title);
+            st.setInt(2, user_id);
+            st.setInt(3, genre_id);
+            st.setString(4, text);
+            st.setInt(5, retrievedStoryId);            
+            
+            int rowsAffected = st.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(new JFrame(), "Story updated successfully", "Success", JOptionPane.OK_OPTION);
+                    new Updatepanel(user, title, author).setVisible(true);
+                    this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(), "Failed to update story", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            System.err.println("error" + e);
+        }        
+        
+    }//GEN-LAST:event_SaveButtonActionPerformed
+
+    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
+
+        int storyId = txt_update();
+        if (storyId > 0) {
+            int option = JOptionPane.showConfirmDialog(new JFrame(), "Are you sure you want to delete this story?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                deleteStory(storyId);
+            }
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "No story found with title: " + title, "Error", JOptionPane.ERROR_MESSAGE);
+        }        
+    }//GEN-LAST:event_DeleteButtonActionPerformed
+    
+    
+    private void initGenreMap() {
+        genreMap = new HashMap<>();
+        genreMap.put(1, "Horror");
+        genreMap.put(2, "Action");
+        genreMap.put(3, "Fantasy");
+        genreMap.put(4, "Romance");
+        genreMap.put(5, "Sci-Fi");
+        genreMap.put(6, "Mystery");
+        genreMap.put(7, "Adventure");
+        genreMap.put(8, "Comedy");
+
+        GenreBox.setModel(new DefaultComboBoxModel<>(genreMap.values().toArray(new String[0])));
+    }    
+    
+    private int getSelectedGenreId() {
+        String selectedGenreName = (String) GenreBox.getSelectedItem();
+        for (Map.Entry<Integer, String> entry : genreMap.entrySet()) {
+            if (entry.getValue().equals(selectedGenreName)) {
+                return entry.getKey();
+            }
+        }
+        return -1; // Return a default value if no genre is selected
+    }    
+    
+    private void deleteStory(int storyId) {
+        try (Connection con = DriverManager.getConnection(url, userName, passwordDB)) {
+            String query = "DELETE FROM stories WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setInt(1, storyId);
+            int rowsAffected = st.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(new JFrame(), "Story deleted successfully", "Success", JOptionPane.OK_OPTION);
+                new Profile(user).setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(new JFrame(), "Failed to delete story", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            System.err.println("error" + e);
+        }
+    }    
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[], User user, String title, String author) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -125,17 +314,20 @@ public class Updatepanel extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Updatepanel().setVisible(true);
+                new Updatepanel(user, title, author).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton DeleteButton;
+    private javax.swing.JComboBox<String> GenreBox;
+    private javax.swing.JButton SaveButton;
+    private javax.swing.JTextArea StoryArea;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
 }

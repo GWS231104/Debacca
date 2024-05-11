@@ -4,7 +4,12 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JComboBox;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.DefaultComboBoxModel;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -16,10 +21,12 @@ import javax.swing.JOptionPane;
  */
 public class uploadpanel extends javax.swing.JFrame {
     private User user;
-
+    private Map<Integer, String> genreMap;    
+    
     public uploadpanel(User user) {
         this.user = user;
         initComponents();
+        initGenreMap();        
     }
 
     /**
@@ -132,6 +139,7 @@ public class uploadpanel extends javax.swing.JFrame {
         // TODO add your handling code here:
         String title, text, query1, query2;
         int user_id = user.getID();
+        int genre_id = getSelectedGenreId();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");    
@@ -154,20 +162,17 @@ public class uploadpanel extends javax.swing.JFrame {
             } else {
                 title = txtTitle.getText();
                 text = StoryArea.getText();
-                query1 = "INSERT INTO login"
-                        + "(username,password,email) "
-                        + "VALUES ('"+Nick+"', '"+Pass+"', '"+EM+"')";
+                query1 = "INSERT INTO stories"
+                        + "(title,user_id,genre_id,text) "
+                        + "VALUES ('"+title+"', '"+user_id+"', '"+genre_id+"', '"+text+"')";
                 //--------------------------------------------------------------
-                st.executeUpdate(query);
-                txtUser.setText("");
-                txtPass.setText("");
-                txtEmail.setText("");
+                st.executeUpdate(query1);
                 JOptionPane.showMessageDialog(new JFrame(),
                         "Berhasil di simpan", "Dialog",
                         JOptionPane.OK_OPTION);
                 //Tutup Koneksi
                 con.close();
-                System.out.println(query);
+                System.out.println(query1);
             }
         } catch (Exception e) {
             System.err.println("error" + e);
@@ -190,6 +195,30 @@ public class uploadpanel extends javax.swing.JFrame {
         
     }//GEN-LAST:event_GenreBoxActionPerformed
 
+    private void initGenreMap() {
+        genreMap = new HashMap<>();
+        genreMap.put(1, "Horror");
+        genreMap.put(2, "Action");
+        genreMap.put(3, "Fantasy");
+        genreMap.put(4, "Romance");
+        genreMap.put(5, "Sci-Fi");
+        genreMap.put(6, "Mystery");
+        genreMap.put(7, "Adventure");
+        genreMap.put(8, "Comedy");
+
+        GenreBox.setModel(new DefaultComboBoxModel<>(genreMap.values().toArray(new String[0])));
+    }        
+    
+    private int getSelectedGenreId() {
+        String selectedGenreName = (String) GenreBox.getSelectedItem();
+        for (Map.Entry<Integer, String> entry : genreMap.entrySet()) {
+            if (entry.getValue().equals(selectedGenreName)) {
+                return entry.getKey();
+            }
+        }
+        return -1; // Return a default value if no genre is selected
+    }    
+    
     /**
      * @param args the command line arguments
      */
