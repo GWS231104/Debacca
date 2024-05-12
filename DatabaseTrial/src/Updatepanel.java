@@ -89,22 +89,27 @@ public class Updatepanel extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanelGradient1 = new Cosmetics.JPanelGradient();
+        jPanelHalfRound1 = new Cosmetics.JPanelHalfRound();
         jLabel1 = new javax.swing.JLabel();
         txtTitle = new javax.swing.JTextField();
+        GenreBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         StoryArea = new javax.swing.JTextArea();
-        GenreBox = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
-        SaveButton = new javax.swing.JButton();
         DeleteButton = new javax.swing.JButton();
+        jButtonGradient1 = new Cosmetics.JButtonGradient();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Title");
+        jPanelGradient1.setColorEnd(new java.awt.Color(232, 28, 255));
+        jPanelGradient1.setColorStart(new java.awt.Color(64, 201, 255));
 
-        StoryArea.setColumns(20);
-        StoryArea.setRows(5);
-        jScrollPane1.setViewportView(StoryArea);
+        jPanelHalfRound1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelHalfRound1.setRoundTopLeft(100);
+        jPanelHalfRound1.setRoundTopRight(100);
+
+        jLabel1.setText("Title");
 
         GenreBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Horror", "Action", "Fantasy", "Romance", "Sci-Fi", "Mystery", "Adventure", "Comedy" }));
         GenreBox.addActionListener(new java.awt.event.ActionListener() {
@@ -113,66 +118,109 @@ public class Updatepanel extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Profile");
+        StoryArea.setColumns(20);
+        StoryArea.setRows(5);
+        jScrollPane1.setViewportView(StoryArea);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user.png"))); // NOI18N
+        jButton2.setBorder(null);
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        SaveButton.setText("Save");
-        SaveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SaveButtonActionPerformed(evt);
-            }
-        });
-
-        DeleteButton.setText("Delete story");
+        DeleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bin.png"))); // NOI18N
+        DeleteButton.setBorderPainted(false);
+        DeleteButton.setContentAreaFilled(false);
         DeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DeleteButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+        jButtonGradient1.setText("Save");
+        jButtonGradient1.setColor1(new java.awt.Color(232, 28, 255));
+        jButtonGradient1.setColor2(new java.awt.Color(64, 201, 255));
+        jButtonGradient1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGradient1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelHalfRound1Layout = new javax.swing.GroupLayout(jPanelHalfRound1);
+        jPanelHalfRound1.setLayout(jPanelHalfRound1Layout);
+        jPanelHalfRound1Layout.setHorizontalGroup(
+            jPanelHalfRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHalfRound1Layout.createSequentialGroup()
+                .addGroup(jPanelHalfRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanelHalfRound1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonGradient1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(151, 151, 151)
+                        .addComponent(DeleteButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelHalfRound1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanelHalfRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(GenreBox, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHalfRound1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
                                 .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(GenreBox, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(DeleteButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(SaveButton)))))
-                .addContainerGap())
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanelHalfRound1Layout.setVerticalGroup(
+            jPanelHalfRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHalfRound1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jPanelHalfRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(GenreBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SaveButton)
+                .addComponent(GenreBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanelHalfRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonGradient1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DeleteButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
+
+        javax.swing.GroupLayout jPanelGradient1Layout = new javax.swing.GroupLayout(jPanelGradient1);
+        jPanelGradient1.setLayout(jPanelGradient1Layout);
+        jPanelGradient1Layout.setHorizontalGroup(
+            jPanelGradient1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelGradient1Layout.createSequentialGroup()
+                .addGap(81, 81, 81)
+                .addComponent(jPanelHalfRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+        jPanelGradient1Layout.setVerticalGroup(
+            jPanelGradient1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGradient1Layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addComponent(jPanelHalfRound1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanelGradient1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelGradient1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -183,7 +231,7 @@ public class Updatepanel extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -198,7 +246,20 @@ public class Updatepanel extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_GenreBoxActionPerformed
 
-    private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
+    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
+
+        int storyId = txt_update();
+        if (storyId > 0) {
+            int option = JOptionPane.showConfirmDialog(new JFrame(), "Are you sure you want to delete this story?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                deleteStory(storyId);
+            }
+        } else {
+            JOptionPane.showMessageDialog(new JFrame(), "No story found with title: " + title, "Error", JOptionPane.ERROR_MESSAGE);
+        }        
+    }//GEN-LAST:event_DeleteButtonActionPerformed
+
+    private void jButtonGradient1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGradient1ActionPerformed
 
         String title = txtTitle.getText();
         String text = StoryArea.getText();        
@@ -226,20 +287,7 @@ public class Updatepanel extends javax.swing.JFrame {
             System.err.println("error" + e);
         }        
         
-    }//GEN-LAST:event_SaveButtonActionPerformed
-
-    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
-
-        int storyId = txt_update();
-        if (storyId > 0) {
-            int option = JOptionPane.showConfirmDialog(new JFrame(), "Are you sure you want to delete this story?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.YES_OPTION) {
-                deleteStory(storyId);
-            }
-        } else {
-            JOptionPane.showMessageDialog(new JFrame(), "No story found with title: " + title, "Error", JOptionPane.ERROR_MESSAGE);
-        }        
-    }//GEN-LAST:event_DeleteButtonActionPerformed
+    }//GEN-LAST:event_jButtonGradient1ActionPerformed
     
     
     private void initGenreMap() {
@@ -322,11 +370,13 @@ public class Updatepanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton DeleteButton;
     private javax.swing.JComboBox<String> GenreBox;
-    private javax.swing.JButton SaveButton;
     private javax.swing.JTextArea StoryArea;
     private javax.swing.JButton jButton2;
+    private Cosmetics.JButtonGradient jButtonGradient1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private Cosmetics.JPanelGradient jPanelGradient1;
+    private Cosmetics.JPanelHalfRound jPanelHalfRound1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtTitle;
     // End of variables declaration//GEN-END:variables
